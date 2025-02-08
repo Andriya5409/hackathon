@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduGuide Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script defer src="dashboard.js"></script>
+</head>
+<body>
+
+    <!-- 🔹 Navbar -->
+    <nav>
+        <div class="logo">EduGuide</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Exams</a></li>
+            <li><a href="#">Courses</a></li>
+            <li><a href="#">Chatbot</a></li>
+            <li><a href="#" id="logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- 🔹 Welcome Section -->
+    <div class="hero">
+        <h1>Welcome back, <span id="username">User</span>!</h1>
+        <p>Explore entrance exams, courses, and study resources all in one place.</p>
+        <button onclick="explore()">Explore Now</button>
+    </div>
+
+    <!-- 🔹 Feature Sections -->
+    <section class="features">
+        <div class="card">
+            <img src="exam-icon.png" alt="Exams">
+            <h3>Explore Exams</h3>
+            <p>Get details about competitive exams, eligibility, and deadlines.</p>
+        </div>
+        <div class="card">
+            <img src="video-icon.png" alt="Videos">
+            <h3>Watch Lectures</h3>
+            <p>Access curated video tutorials from top educators.</p>
+        </div>
+        <div class="card">
+            <img src="chatbot-icon.png" alt="Chatbot">
+            <h3>Ask the Chatbot</h3>
+            <p>Get AI-powered assistance on courses and entrance exams.</p>
+        </div>
+    </section>
+
+    <!-- 🔹 Call to Action -->
+    <div class="cta">
+        <h2>Get Started with EduGuide Today!</h2>
+        <button onclick="startNow()">Start Now</button>
+    </div>
+
+</body>
+</html>

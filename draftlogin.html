@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduGuide - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2 id="form-title">Login</h2>
+
+        <!-- 🔹 Login Form -->
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+            <p>Don't have an account? <a href="signup.html" id="switchToSignup">Sign up</a></p>
+        </form>
+
+        <!-- 🔹 Signup Form (Hidden by Default) -->
+        <form id="signupForm" style="display: none;">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="email" id="signupEmail" placeholder="Email" required>
+            <input type="password" id="signupPassword" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+            <p>Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+        </form>
+    </div>
+
+</body>
+</html>
