@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrance Exam Courses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        header nav a {
+            text-decoration: none;
+            color: #555;
+            font-size: 16px;
+            margin-left: 20px;
+        }
+
+        .container {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .container h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .courses {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .course {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+
+        .course:hover {
+            transform: scale(1.05);
+        }
+
+        .course h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .course p {
+            font-size: 16px;
+            color: #777;
+            margin: 0;
+        }
+
+        .course .badge {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .engineering { background-color: #f76c6c; }
+        .medical { background-color: #ffa500; }
+        .law { background-color: #4caf50; }
+        .arts { background-color: #6c63ff; }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Entrance Exams</h1>
+        <nav>
+            <a href="#">Home</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Choose your interested domain</h2>
+        <div class="courses">
+            <div class="course">
+                <div class="badge engineering">ENGINEERING</div>
+                <h3>Engineering Entrances</h3>
+                <p>Prepare for your engineering career</p>
+            </div>
+            <div class="course">
+                <div class="badge medical">MEDICAL</div>
+                <h3>Medical Entrances</h3>
+                <p>Achieve your medical goals</p>
+            </div>
+            <div class="course">
+                <div class="badge law">LAW</div>
+                <h3>Law Entrances</h3>
+                <p>Shape your legal career</p>
+            </div>
+            <div class="course">
+                <div class="badge arts">ARTS</div>
+                <h3>Arts & Humanities</h3>
+                <p>Explore creative opportunities</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
