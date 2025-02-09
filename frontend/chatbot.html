@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Course Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #chat-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        #chat-log {
+            max-height: 300px;
+            overflow-y: auto;
+            flex-grow: 1;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .user-message, .bot-message {
+            margin: 10px 0;
+        }
+        .user-message {
+            text-align: right;
+            background-color: #cce5ff;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        .bot-message {
+            text-align: left;
+            background-color: #e2e3e5;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: calc(100% - 22px);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <h2>Chat with our AI Assistant</h2>
+        <div id="chat-log"></div>
+        <input type="text" id="user-input" placeholder="Ask me about courses..." />
+        <button id="send-button" onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        const chatLog = document.getElementById('chat-log');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        // Knowledge base for the chatbot
+        const knowledgeBase = {
+            // Conversational replies
+            "hello": "Hello! How can I assist you today?",
+            "hi": "Hi! How can I help you?",
+            "how are you": "I'm just a bot, but thanks for asking! How can I assist you today?",
+            "ok":"what more can i do for you?",
+            "what is your name": "I am your friendly course assistant! How can I help you today?",
+            "bye": "Goodbye! Have a great day!",
+             "courses":"Various courses include engineering, medicine, business, design, law etc.",
+
+            // Courses and their descriptions
+            "engineering": "Engineering is the application of science and math to solve problems. Fields include civil, mechanical, electrical, computer, and chemical engineering.",
+            "civil engineering": "Civil Engineering involves the design and construction of infrastructure such as bridges, roads, and buildings.",
+            "mechanical engineering": "Mechanical Engineering is focused on the design, analysis, and manufacturing of mechanical systems.",
+            "electrical engineering": "Electrical Engineering involves the study of electrical systems, circuits, and electronics.",
+            "computer engineering": "Computer Engineering combines electrical engineering and computer science to develop computer systems and hardware.",
+            "chemical engineering": "Chemical Engineering deals with the design and operation of chemical plants, as well as the production of chemicals and materials.",
+
+            "medicine": "Medicine is the science of diagnosing, treating, and preventing diseases. Specialized fields include surgery, pediatrics, cardiology, and neurology.",
+            "surgery": "Surgery is a branch of medicine that involves performing operations to treat injuries, diseases, and deformities.",
+            "pediatrics": "Pediatrics is the branch of medicine that deals with the medical care of infants, children, and adolescents.",
+            "cardiology": "Cardiology is the branch of medicine that deals with disorders of the heart and blood vessels.",
+            "neurology": "Neurology is the branch of medicine that deals with the nervous system, including the brain, spinal cord, and nerves.",
+            
+            "design": "Design encompasses various disciplines like graphic design, industrial design, fashion design, and interior design.",
+            "graphic design": "Graphic Design is the art of creating visual content using typography, photography, and illustrations to communicate messages.",
+            "industrial design": "Industrial Design involves designing products, tools, and machinery for mass production, balancing functionality and aesthetics.",
+            "fashion design": "Fashion Design is the art of creating clothing and accessories, focusing on aesthetics, functionality, and trends.",
+            "interior design": "Interior Design is the art of enhancing the interior of a building to create a healthier and more aesthetically pleasing environment.",
+
+            "commerce": "Commerce refers to the activity of buying and selling goods and services. Specializations include accounting, economics, and marketing.",
+            "accounting": "Accounting involves the process of recording, classifying, and summarizing financial transactions to provide insights into business operations.",
+            "economics": "Economics is the study of how societies allocate scarce resources to meet the needs and wants of people.",
+            "marketing": "Marketing is the process of promoting and selling products or services, including market research and advertising.",
+            
+            "arts and humanities": "Arts and Humanities explore human culture, history, and creativity. This includes subjects like philosophy, history, literature, and linguistics.",
+            "philosophy": "Philosophy involves the study of fundamental questions regarding existence, knowledge, ethics, and reason.",
+            "history": "History is the study of past events, focusing on the experiences, cultures, and societies of human civilization.",
+            "literature": "Literature is the study of written works, especially those with artistic value, such as novels, poetry, and plays.",
+            "linguistics": "Linguistics is the scientific study of language, its structure, meaning, and the social and cultural aspects of communication.",
+
+            "business": "Business studies prepare students for careers in management, marketing, entrepreneurship, and leadership.",
+            "management": "Management involves planning, organizing, and controlling resources and processes to achieve organizational goals.",
+            "entrepreneurship": "Entrepreneurship involves the process of starting and running a new business, typically focusing on innovation and risk-taking.",
+            "marketing": "Marketing is the process of promoting and selling products or services, including market research and advertising.",
+
+            "law": "Law is the system of rules created and enforced by social or governmental institutions to regulate behavior. It includes specializations like criminal law, civil law, and corporate law.",
+            "criminal law": "Criminal Law involves the prosecution and defense of individuals accused of violating laws or engaging in criminal behavior.",
+            "civil law": "Civil Law involves legal matters related to personal disputes, including contracts, property, and family law.",
+            "corporate law": "Corporate Law is the area of law that governs business and commercial transactions, including mergers, acquisitions, and intellectual property."
+        };
+
+        // Function to handle sending a message
+        function sendMessage() {
+            const message = userInput.value;
+            if (!message.trim()) return;
+
+            // Display user's message
+            displayMessage(message, 'user');
+            userInput.value = '';
+
+            // Bot response
+            setTimeout(() => {
+                const response = getBotResponse(message);
+                displayMessage(response, 'bot');
+            }, 1000);
+        }
+
+        // Function to display messages
+        function displayMessage(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add(sender + '-message');
+            messageDiv.textContent = message;
+            chatLog.appendChild(messageDiv);
+            chatLog.scrollTop = chatLog.scrollHeight; // Scroll to the latest message
+        }
+
+        // Function to get the bot response from the knowledge base
+        function getBotResponse(message) {
+            const query = message.toLowerCase();
+
+            // Check for a match in the knowledge base
+            for (let key in knowledgeBase) {
+                if (query.includes(key)) {
+                    return knowledgeBase[key];
+                }
+            }
+
+            // Default response
+            return "I'm sorry, I don't have information on that topic. Try asking about Engineering, Medicine, Design, etc";
+        }
+
+        // Handle 'Enter' key to send the message
+        userInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
