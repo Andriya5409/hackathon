@@ -10,6 +10,20 @@ exports.register = async (req, res) => {
         const user = new User({ name, email, password: hashedPassword });
         await user.save();
 
+        // Generate JWT token
+        const token = jwt.sign({ userId: user._id }, "your_secret_key", { expiresIn: "1h" });
+
+        // Set token as HTTP cookie
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "Strict",
+            maxAge: 3600000, // 1 hour
+        });
+
+        console.log("Stored Token:", token);  // ✅ Print token to console
+
+
         res.status(201).json({ message: "User registered successfully!" });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -17,6 +31,8 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
+
+    console.log("pritned nothing");
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
@@ -26,8 +42,18 @@ exports.login = async (req, res) => {
         }
 
         const token = jwt.sign({ userId: user._id }, "your_secret_key", { expiresIn: "1h" });
-        res.json({ token, userId: user._id });
-        return res.json("Login Sucessfull")
+
+         // Set token as HTTP cookie
+         res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "Strict",
+            maxAge: 3600000, // 1 hour
+        });
+
+        console.log("Stored Token:", token);  // ✅ Print token to console
+
+        res.json({ message: "Login Successful", userId: user._id });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
